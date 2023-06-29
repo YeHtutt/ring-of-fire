@@ -25,11 +25,15 @@
     }
 }
 
+.played-card {
+    right: 25px; //Am Anfang 25px recht von einander um Stapel aussehen gegeben -> das zu gespielte Karte geben: nun stimmt die Position
+    transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
+}
 
 .pick-card {
     transition: all 0.2s ease-in-out;
-    animation: pick-card-animation 1.25s ease-in-out;
-    transform: scale(1.3) translateX(300px) translateY(-270px) rotate(30deg);
+    animation: pick-card-animation 1s ease-in-out;
+    transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
 }
 
 @keyframes pick-card-animation {
@@ -43,6 +47,6 @@
         transform: scale(1.3);
     }
     100% {
-        transform: scale(1.3) translateX(300px) translateY(-270px) rotate(30deg);
+        transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
     }
 }
