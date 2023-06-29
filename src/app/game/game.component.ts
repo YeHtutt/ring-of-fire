@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { withDebugTracing } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -11,7 +14,8 @@ export class GameComponent implements OnInit{
   currentCard:string = ''; //leeren String am Anfang
   game: Game;
 
-  constructor() {
+
+  constructor(public dialog: MatDialog) {
     this.game = new Game();
   }
 
@@ -37,7 +41,15 @@ export class GameComponent implements OnInit{
         this.game.playedCard.push(this.currentCard); //erst die neue Karte zeigen, wenn Animation fertig ist
         this.pickCardAnimation = false;
       }, 1000); //bei 1,5 Sek alte pickCardAnimation löschen, um neue Karte zu animieren
-    }
+    } 
+  }
+
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
