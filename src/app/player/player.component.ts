@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class PlayerComponent {
 
   @Input() name; //input variable [name] für game.component.html 
-
+  @Input() playerActive: boolean = false; //im normalfall ein Player ist nicht active
 }

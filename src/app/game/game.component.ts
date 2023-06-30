@@ -37,6 +37,10 @@ export class GameComponent implements OnInit{
       console.log('New card: ' + this.currentCard);
       console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
 
+      //aktuellen Spieler auswählen
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length; //hier wird current player iteriert
+
       setTimeout(() => {
         this.game.playedCard.push(this.currentCard); //erst die neue Karte zeigen, wenn Animation fertig ist
         this.pickCardAnimation = false;
