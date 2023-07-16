@@ -11,8 +11,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
-  currentCard: string = ''; //leeren String am Anfang
   game: Game;
   gameId: string;
 
@@ -38,6 +36,8 @@ export class GameComponent implements OnInit {
           this.game.playedCard = game.playedCard;
           this.game.players = game.players;
           this.game.stack = game.stack;
+          this.game.pickCardAnimation = game.pickCardAnimation;
+          this.game.currentCard = game.currentCard;
         })
     })
 
@@ -50,21 +50,20 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
+    if (!this.game.pickCardAnimation) {
+      this.game.currentCard = this.game.stack.pop();
       //console.log(this.currentCard);
-      this.pickCardAnimation = true;
-      console.log('New card: ' + this.currentCard);
+      this.game.pickCardAnimation = true;
+      console.log('New card: ' + this.game.currentCard);
       console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
-      this.saveGame(); //Die Kartenzüge pop() Methoden müssen auch geupdated werden
-
       //aktuellen Spieler auswählen
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length; //hier wird current player iteriert
+      this.saveGame(); //Die Kartenzüge pop() Methoden müssen auch geupdated werden
 
       setTimeout(() => {
-        this.game.playedCard.push(this.currentCard); //erst die neue Karte zeigen, wenn Animation fertig ist
-        this.pickCardAnimation = false;
+        this.game.playedCard.push(this.game.currentCard); //erst die neue Karte zeigen, wenn Animation fertig ist
+        this.game.pickCardAnimation = false;
         this.saveGame(); //Die Kartenzüge pop() Methoden müssen auch geupdated werden
       }, 1000); //bei 1,5 Sek alte pickCardAnimation löschen, um neue Karte zu animieren
     }
