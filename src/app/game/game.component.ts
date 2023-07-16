@@ -14,6 +14,7 @@ export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string = ''; //leeren String am Anfang
   game: Game;
+  gameId: string;
 
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -24,19 +25,23 @@ export class GameComponent implements OnInit {
     //this.newGame();
     this.route.params.subscribe((params) => { //Parameter aus Route erzeugen (.subscribe() Methode kann oft aufgerufen werden)
       console.log(params['id']);
+      this.gameId = params['id'];
 
-      this.firestore.collection('games').doc(params['id']).valueChanges().subscribe(
-        (game: any) => { //spiel Daten abfragen
-        console.log('Game update', game);
-        
-        this.game.currentPlayer = game.currentPlayer;
-        this.game.playedCard = game.playedCard;
-        this.game.players = game.players;
-        this.game.stack = game.stack;
-       })
+      this.firestore
+        .collection('games')
+        .doc(this.gameId)
+        .valueChanges()
+        .subscribe((game: any) => { //spiel Daten abfragen
+          console.log('Game update', game);
+
+          this.game.currentPlayer = game.currentPlayer;
+          this.game.playedCard = game.playedCard;
+          this.game.players = game.players;
+          this.game.stack = game.stack;
+        })
     })
 
-    
+
   }
 
   newGame() {
@@ -49,8 +54,9 @@ export class GameComponent implements OnInit {
       this.currentCard = this.game.stack.pop();
       //console.log(this.currentCard);
       this.pickCardAnimation = true;
-      //console.log('New card: ' + this.currentCard);
-      //console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
+      console.log('New card: ' + this.currentCard);
+      console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
+      this.saveGame(); //Die Kartenzüge pop() Methoden müssen auch geupdated werden
 
       //aktuellen Spieler auswählen
       this.game.currentPlayer++;
@@ -59,6 +65,7 @@ export class GameComponent implements OnInit {
       setTimeout(() => {
         this.game.playedCard.push(this.currentCard); //erst die neue Karte zeigen, wenn Animation fertig ist
         this.pickCardAnimation = false;
+        this.saveGame(); //Die Kartenzüge pop() Methoden müssen auch geupdated werden
       }, 1000); //bei 1,5 Sek alte pickCardAnimation löschen, um neue Karte zu animieren
     }
   }
@@ -71,7 +78,18 @@ export class GameComponent implements OnInit {
       if (name && name.length > 0) { //only name inserted: the player can be added
         this.game.players.push(name);  //name Input wird zum Array von players[] hinzugefügt
         //console.log('The dialog was closed', name);
+        this.saveGame();
       }
     });
   }
+
+
+  saveGame() {
+    this
+      .firestore
+      .collection('games')
+      .doc(this.gameId)
+      .update(this.game.toJSON());
+  }
+
 }
