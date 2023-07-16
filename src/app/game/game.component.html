@@ -7,15 +7,15 @@
     <div class="card-stack">
         <!--alle Bilder sollen nach recht 5px von einander verschoben werden, um Karten wie eine Stapel von Karten auszusehen-->
         <img [ngStyle]="{'right.px' : i*5}" *ngFor="let c of [0, 1, 2, 3]; let i = index;"
-            src="/assets/img/cards/card_cover.png">
-        <img (click)="takeCard()" style="right: 25px;" class="top-card" src="/assets/img/cards/card_cover.png">
+            src="assets/img/cards/card_cover.png">
+        <img (click)="takeCard()" style="right: 25px;" class="top-card" src="assets/img/cards/card_cover.png">
 
         <!--Stack for played cards-->
-        <img *ngFor="let card of game.playedCard" class="played-card" src="/assets/img/cards/{{ card }}.png">
+        <img *ngFor="let card of game.playedCard" class="played-card" src="assets/img/cards/{{ card }}.png">
 
         <!--Current card ()-->
         <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card" style="right: 25px;"
-            src="/assets/img/cards/{{ currentCard }}.png">
+            src="assets/img/cards/{{ currentCard }}.png">
 
     </div>
 </div>

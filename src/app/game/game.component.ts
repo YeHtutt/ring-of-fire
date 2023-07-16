@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { withDebugTracing } from '@angular/router';
+import { ActivatedRoute, withDebugTracing } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-game',
@@ -15,17 +16,32 @@ export class GameComponent implements OnInit {
   game: Game;
 
 
-  constructor(public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
     this.game = new Game();
   }
 
   ngOnInit(): void {
-    this.newGame();
+    //this.newGame();
+    this.route.params.subscribe((params) => { //Parameter aus Route erzeugen (.subscribe() Methode kann oft aufgerufen werden)
+      console.log(params['id']);
+
+      this.firestore.collection('games').doc(params['id']).valueChanges().subscribe(
+        (game: any) => { //spiel Daten abfragen
+        console.log('Game update', game);
+        
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCard = game.playedCard;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+       })
+    })
+
+    
   }
 
   newGame() {
     this.game = new Game();
-    console.log(this.game); //die Objekt daten des Spieles am Anfang ausloggen
+    //console.log(this.game); //die Objekt daten des Spieles am Anfang ausloggen
   }
 
   takeCard() {
@@ -33,9 +49,8 @@ export class GameComponent implements OnInit {
       this.currentCard = this.game.stack.pop();
       //console.log(this.currentCard);
       this.pickCardAnimation = true;
-
-      console.log('New card: ' + this.currentCard);
-      console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
+      //console.log('New card: ' + this.currentCard);
+      //console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
 
       //aktuellen Spieler auswählen
       this.game.currentPlayer++;

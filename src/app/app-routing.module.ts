@@ -5,7 +5,7 @@ import { GameComponent } from './game/game.component';
 
 const routes: Routes = [
   { path: '', component: StartScreenComponent },  //das soll am Anfang geladen werden, daher route gar nicht (path: '')
-  { path: 'game', component: GameComponent },
+  { path: 'game/:id', component: GameComponent },
 ];
 
 @NgModule({
