@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     //this.newGame();
     this.route.params.subscribe((params) => { //Parameter aus Route erzeugen (.subscribe() Methode kann oft aufgerufen werden)
-      console.log(params['id']);
+      //console.log(params['id']);
       this.gameId = params['id'];
 
       this.firestore
@@ -30,7 +30,7 @@ export class GameComponent implements OnInit {
         .doc(this.gameId)
         .valueChanges()
         .subscribe((game: any) => { //spiel Daten abfragen
-          console.log('Game update', game);
+          //console.log('Game update', game);
 
           this.game.currentPlayer = game.currentPlayer;
           this.game.playedCard = game.playedCard;
@@ -54,8 +54,8 @@ export class GameComponent implements OnInit {
       this.game.currentCard = this.game.stack.pop();
       //console.log(this.currentCard);
       this.game.pickCardAnimation = true;
-      console.log('New card: ' + this.game.currentCard);
-      console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
+      // console.log('New card: ' + this.game.currentCard);
+      // console.log('Game is ', this.game); //die Objekt daten des Spieles nach Kartenzug ausloggen
       //aktuellen Spieler auswählen
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length; //hier wird current player iteriert

@@ -1,14 +1,14 @@
 {
+  "projects": {
+    "default": "ringoffire-yha"
+  },
   "targets": {
-    "ring-of-fire-f1135": {
+    "ringoffire-yha": {
       "hosting": {
         "ringoffire": [
-          "ring-of-fire-f1135"
+          "ringoffire-yha"
         ]
       }
     }
-  },
-  "projects": {
-    "default": "ring-of-fire-f1135"
   }
 }

@@ -1,10 +1,12 @@
 export const environment = {
   firebase: {
-    projectId: 'ring-of-fire-f1135',
-    appId: '1:794764776272:web:ae79e4d03a82ae22a29255',
-    storageBucket: 'ring-of-fire-f1135.appspot.com',
-    apiKey: 'AIzaSyDTzKtJy_APjmoDVwzTpuvSmj2lDguslpg',
-    authDomain: 'ring-of-fire-f1135.firebaseapp.com',
-    messagingSenderId: '794764776272',
+    projectId: 'ringoffire-yha',
+    appId: '1:845167543688:web:75478f81c470e7e4f9663d',
+    databaseURL: 'https://ringoffire-yha-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'ringoffire-yha.appspot.com',
+    locationId: 'europe-west',
+    apiKey: 'AIzaSyAmpwY8CXZtyu-rXPos_gANC_4imrxf8cY',
+    authDomain: 'ringoffire-yha.firebaseapp.com',
+    messagingSenderId: '845167543688',
   },
 };
